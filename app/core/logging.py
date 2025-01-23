@@ -4,35 +4,49 @@ LOGGING_CONFIG = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "default": {
+        "standard": {
             "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
         },
-        "detailed": {
-            "format": "%(asctime)s - %(name)s - [%(levelname)s] - %(message)s - (%(filename)s:%(lineno)d)",
+        "error": {
+            "format": "%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s"
         },
     },
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
-            "formatter": "default",
+            "level": "INFO",
+            "formatter": "standard",
+            "stream": "ext://sys.stdout",
         },
-        "file": {
+        "file_handler": {
             "class": "logging.FileHandler",
-            "filename": "logs/app.log",
-            "formatter": "detailed",
+            "level": "DEBUG",
+            "formatter": "standard",
+            "filename": "app.log",
+            "mode": "a",
         },
-    },
-    "root": {
-        "handlers": ["console", "file"],
-        "level": "INFO",
+        "error_file_handler": {
+            "class": "logging.FileHandler",
+            "level": "ERROR",
+            "formatter": "error",
+            "filename": "errors.log",
+            "mode": "a",
+        },
     },
     "loggers": {
-        "uvicorn": {
-            "handlers": ["console"],
+        "app_logger": {
+            "level": "DEBUG",
+            "handlers": ["console", "file_handler", "error_file_handler"],
+            "propagate": False,
+        },
+        "database": {
             "level": "INFO",
+            "handlers": ["console", "file_handler"],
             "propagate": False,
         },
     },
+    "root": {"level": "INFO", "handlers": ["console"]},
 }
 
 
