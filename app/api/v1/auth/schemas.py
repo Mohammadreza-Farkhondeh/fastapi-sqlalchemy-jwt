@@ -35,9 +35,8 @@ class TokenResponse(BaseModel):
     Schema for token responses (both obtain and refresh).
     """
 
-    access_token: str
-    refresh_token: str
-    token_type: str = Field(default="bearer")
+    access: str
+    refresh: str
 
 
 class TokenRefreshRequest(BaseModel):
@@ -45,4 +44,4 @@ class TokenRefreshRequest(BaseModel):
     Schema for refreshing tokens.
     """
 
-    refresh_token: str
+    refresh: str

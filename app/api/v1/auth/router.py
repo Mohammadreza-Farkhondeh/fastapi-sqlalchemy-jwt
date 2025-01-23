@@ -51,8 +51,8 @@ def obtain_token(token_request: TokenObtainRequest, db: Session = Depends(get_db
     access_token = JWTUtils.create_access_token({"sub": user.email})
     refresh_token = JWTUtils.create_refresh_token({"sub": user.email})
     return TokenResponse(
-        access_token=access_token,
-        refresh_token=refresh_token,
+        access=access_token,
+        refresh=refresh_token,
     )
 
 
@@ -61,7 +61,7 @@ def refresh_token(refresh_data: TokenRefreshRequest):
     """
     Endpoint for refreshing the access token.
     """
-    payload = JWTUtils.verify_token(refresh_data.refresh_token)
+    payload = JWTUtils.verify_token(refresh_data.refresh)
     if not payload:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid refresh token"
@@ -69,6 +69,6 @@ def refresh_token(refresh_data: TokenRefreshRequest):
 
     access_token = JWTUtils.create_access_token({"sub": payload["sub"]})
     return TokenResponse(
-        access_token=access_token,
-        refresh_token=refresh_data.refresh_token,
+        access=access_token,
+        refresh=refresh_data.refresh,
     )
