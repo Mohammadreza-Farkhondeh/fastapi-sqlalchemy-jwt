@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from app.main import app
 from app.models.base import Base
 from app.repositories.user_repository import UserRepository
+from app.services.user_service import UserService
 
 
 @pytest.fixture(scope="module")
@@ -47,3 +48,8 @@ def db_session(engine, tables):
 @pytest.fixture
 def user_repository():
     return UserRepository()
+
+
+@pytest.fixture
+def user_service():
+    return UserService()
