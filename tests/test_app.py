@@ -8,6 +8,6 @@ def test_health_check(test_client):
 
 
 def test_logging_configuration():
-    logger = logging.getLogger("uvicorn")
+    logger = logging.getLogger("root")
     assert logger is not None
     assert logger.level == logging.INFO
